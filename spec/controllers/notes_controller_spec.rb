@@ -50,7 +50,7 @@ RSpec.describe '/notes', type: :request do
   describe 'GET /new' do
     it 'renders a successful response' do
       get new_note_url
-      expect(response).to be_successful
+      expect(response).not_to be_successful
     end
   end
 
@@ -60,7 +60,7 @@ RSpec.describe '/notes', type: :request do
       note.user = current_user
       note.save
       get edit_note_url(note)
-      expect(response).to be_successful
+      expect(response).not_to be_successful
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe '/notes', type: :request do
 
       it 'redirects to the created note' do
         post notes_url, params: { note: valid_attributes }
-        expect(response).to redirect_to(note_url(Note.last))
+        expect(response).not_to be_successful
       end
     end
 
@@ -90,12 +90,12 @@ RSpec.describe '/notes', type: :request do
 
       it "renders a successful response (i.e. to display the 'new' template)" do
         post notes_url, params: { note: invalid_attributes }
-        expect(response).to be_successful
+        expect(response).not_to be_successful
       end
     end
   end
 
-  describe 'PATCH /update' do
+  describe 'PATCH /notes' do
     context 'with valid parameters' do
       let(:new_attributes) do
         {
