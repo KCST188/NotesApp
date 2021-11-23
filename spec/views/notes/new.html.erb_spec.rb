@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'notes/new', type: :view do
+  current_user = User.first_or_create!(email: 'kacper@gmail.com', password: 'password', password_confirmation: 'password')
   before(:each) do
     assign(:note, Note.new(
       city: 'London',
       note: 'MyNote',
-      user: nil
+      user: current_user
     ))
   end
 

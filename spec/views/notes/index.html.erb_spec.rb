@@ -8,13 +8,13 @@ RSpec.describe 'notes/index', type: :view do
         city: 'London',
         note: 'MyNote',
         user: current_user,
-        temperature: '12℃'
+        temperature: 12
       ),
       Note.create!(
         city: 'New York',
         note: 'MyNote',
         user: current_user,
-        temperature: '8℃'
+        temperature: 8
       )
     ])
   end
@@ -25,7 +25,7 @@ RSpec.describe 'notes/index', type: :view do
     assert_select 'tr>td', text: 'New York'.to_s, count: 1
     assert_select 'tr>td', text: 'MyNote'.to_s, count: 2
     assert_select 'tr>td', text: current_user.id.to_s, count: 2
-    assert_select 'tr>td', text: '12℃'.to_s, count: 1
-    assert_select 'tr>td', text: '8℃'.to_s, count: 1
+    assert_select 'tr>td', text: 12.to_s, count: 1
+    assert_select 'tr>td', text: 8.to_s, count: 1
   end
 end
