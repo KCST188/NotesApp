@@ -4,7 +4,7 @@ class CreateNotes < ActiveRecord::Migration[6.1]
       t.string :city
       t.string :note
       t.date :note_date
-      t.string :temperature
+      t.intiger :temperature
 
       t.timestamps
     end

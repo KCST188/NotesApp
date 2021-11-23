@@ -76,7 +76,7 @@ class NotesController < ApplicationController
     json = (Rails.configuration.open_weather_api.current city: @note.city).to_json
     parse = ActiveSupport::JSON.decode(json)
     x = parse['main']['temp'] - 273.15
-    @note.temperature = x.round.to_s + "℃"
+    @note.temperature = x.round
     rescue
       redirect_to notes_path alert:"Invalid city"
     end
