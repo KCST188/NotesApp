@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_192830) do
     t.string "city"
     t.string "note"
     t.date "note_date"
-    t.string "temperature"
+    t.integer "temperature"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
