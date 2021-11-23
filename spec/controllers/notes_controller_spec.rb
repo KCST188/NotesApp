@@ -122,7 +122,7 @@ RSpec.describe '/notes', type: :request do
         note.save
         patch note_url(note), params: { note: new_attributes }
         note.reload
-        expect(response).to redirect_to(note_url(note))
+        expect(response).to redirect_to(new_user_session_url)
       end
     end
 
@@ -145,7 +145,7 @@ RSpec.describe '/notes', type: :request do
       end.to change(Note, :count).by(-1)
     end
 
-    it 'redirects to the notss list' do
+    it 'redirects to the notes list' do
       note = Note.new(valid_attributes)
       note.user = current_user
       note.save

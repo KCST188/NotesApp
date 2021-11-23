@@ -3,7 +3,6 @@ class NotesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :correct_user, only: %i[edit update destroy]
   include NotesHelper
-
   # GET /notes or /notes.json
   def index
     @notes = Note.all
@@ -41,17 +40,17 @@ class NotesController < ApplicationController
 
   # PATCH/PUT /notes/1 or /notes/1.json
   def update
-    set_temp
+    update_temp
     unless @note.temperature.nil?
       respond_to do |format|
-          if @note.update(note_params)
-            format.html { redirect_to @note, notice: "Note was successfully updated." }
-            format.json { render :show, status: :ok, location: @note }
-          else
-            format.html { render :edit, status: :unprocessable_entity }
-            format.json { render json: @note.errors, status: :unprocessable_entity }
-          end
+        if @note.update(note_params)
+          format.html { redirect_to notes_path, notice: "Note was successfully updated." }
+          format.json { render :show, status: :ok, location: @note }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @note.errors, status: :unprocessable_entity }
         end
+      end
     end
   end
 
@@ -72,13 +71,29 @@ class NotesController < ApplicationController
   private
 
   def set_temp
-    begin
     json = (Rails.configuration.open_weather_api.current city: @note.city).to_json
     parse = ActiveSupport::JSON.decode(json)
     x = parse['main']['temp'] - 273.15
     @note.temperature = x.round
-    rescue
-      redirect_to notes_path alert:"Invalid city"
+  rescue StandardError
+    redirect_to notes_path, notice:"Invalid city"
+  end
+
+  def update_temp
+    begin
+      old_city = @note.city
+      @note.update(note_params)
+      json = (Rails.configuration.open_weather_api.current city: @note.city).to_json
+    rescue StandardError
+      @note.city = old_city
+      @note.update(note_params)
+      @note.temperature = nil
+      redirect_to edit_note_path, notice:"Invalid city"
+    else
+      parse = ActiveSupport::JSON.decode(json)
+      x = parse['main']['temp'] - 273.15
+      @note.temperature = x.round
+      @note.update(note_params)
     end
   end
 
