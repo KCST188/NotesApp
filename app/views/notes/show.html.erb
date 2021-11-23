@@ -1,0 +1,22 @@
+<p>
+  <strong>City:</strong>
+  <%= @note.city %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @note.note %>
+</p>
+
+<p>
+  <strong>Note date:</strong>
+  <%= @note.note_date %>
+</p>
+
+<p>
+  <strong>Temperature:</strong>
+  <%= @note.temperature %>
+</p>
+
+<%= link_to 'Edit', edit_note_path(@note), class:"btn btn-dark" %>
+<%= link_to 'Back', notes_path, class:"btn btn-dark" %>

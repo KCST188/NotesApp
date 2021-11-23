@@ -1,0 +1,33 @@
+<h1>Older posts</h1>
+<% if user_signed_in? %>
+<table class="table table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>Note date</th>
+      <th>City</th>
+      <th>Temperature</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @notes.each do |note| %>
+    <% if current_user == note.user %>
+      <tr>
+          <td><%= note.note_date %></td>
+          <td><%= note.city %></td>
+          <td><%= note.temperature %></td>
+          <td><%= link_to 'Edit', edit_note_path(note) %></td>
+          <td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <tr>
+        <td colspan="5"><%= note.note %></td>
+      </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+
+</table>
+<br>
+  <%= link_to 'New Post', new_note_path, class:"btn btn-outline-primary" %>
+<% end %>
