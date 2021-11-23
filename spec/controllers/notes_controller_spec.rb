@@ -22,7 +22,7 @@ RSpec.describe '/notes', type: :request do
       'id' => '1',
       'city' => 'London',
       'note' => '12345',
-      'user' => current_user,
+      'user.id' => current_user.id,
       'temperature' => '25℃'
     }
   end
@@ -39,7 +39,7 @@ RSpec.describe '/notes', type: :request do
   describe 'GET /index' do
     it 'renders a successful response' do
       note = Note.new(valid_attributes)
-      note.user = current_user
+      note.user.id = current_user.id
       note.save
       get notes_url
       expect(response).to be_successful
@@ -57,19 +57,19 @@ RSpec.describe '/notes', type: :request do
   describe 'GET /edit' do
     it 'render a successful response' do
       note = Note.new(valid_attributes)
-      note.user = current_user
+      note.user.id = current_user.id
       note.save
       get edit_note_url(note)
       expect(response).to be_successful
     end
   end
 
-  describe 'POST /create' do
+  describe 'POST /notes' do
     context 'with valid parameters' do
       it 'creates a new Note' do
         expect do
           note = Note.new(valid_attributes)
-          note.user = current_user
+          note.user.id = current_user.id
           note.save
           post notes_url, params: { note: valid_attributes }
         end.to change(Note, :count).by(1)
@@ -102,14 +102,14 @@ RSpec.describe '/notes', type: :request do
           'id' => '1',
           'city' => 'London',
           'note' => '12345',
-          'user' => current_user,
+          'user.id' => current_user.id,
           'temperature' => '25℃'
         }
       end
 
       it 'updates the requested note' do
         note = Note.new(valid_attributes)
-        note.user = current_user
+        note.user.id = current_user.id
         note.save
         patch note_url(note), params: { note: new_attributes }
         note.reload
@@ -118,7 +118,7 @@ RSpec.describe '/notes', type: :request do
 
       it 'redirects to the note' do
         note = Note.new(valid_attributes)
-        note.user = current_user
+        note.user.id = current_user.id
         note.save
         patch note_url(note), params: { note: new_attributes }
         note.reload
@@ -138,7 +138,7 @@ RSpec.describe '/notes', type: :request do
   describe 'DELETE /destroy' do
     it 'destroys the requested note' do
       note = Note.new(valid_attributes)
-      note.user = current_user
+      note.user.id = current_user.id
       note.save
       expect do
         delete note_url(note)
@@ -147,7 +147,7 @@ RSpec.describe '/notes', type: :request do
 
     it 'redirects to the notss list' do
       note = Note.new(valid_attributes)
-      note.user = current_user
+      note.user.id = current_user.id
       note.save
       delete note_url(note)
       expect(response).to redirect_to(notes_url)
